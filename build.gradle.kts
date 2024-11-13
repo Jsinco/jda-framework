@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("maven-publish")
 }
 
 group = "dev.jsinco.discord"
@@ -39,6 +40,15 @@ dependencies {
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
+}
+
 
 tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
