@@ -1,7 +1,6 @@
 package dev.jsinco.discord.framework.settings;
 
 import eu.okaeri.configs.annotation.Comment;
-import eu.okaeri.configs.annotation.CustomKey;
 import eu.okaeri.configs.annotation.Exclude;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +8,7 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 
 @Getter @Setter
-public final class Settings extends OkaeriYamlConfig {
+public final class Settings extends AbstractOkaeriConfig {
 
     @Comment("Send errors to users if a command throws an exception.")
     private boolean sendErrors = false;

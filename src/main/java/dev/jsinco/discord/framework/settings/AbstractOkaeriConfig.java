@@ -12,20 +12,20 @@ import eu.okaeri.configs.yaml.snakeyaml.YamlSnakeYamlConfigurer;
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 
-public abstract class OkaeriYamlConfig extends OkaeriConfig {
+public abstract class AbstractOkaeriConfig extends OkaeriConfig {
 
     protected static final Path dataFolderPath = FrameWork.getDataFolderPath();
 
 
-    protected static <T extends OkaeriYamlConfig> T createConfig(Class<T> configClass) {
+    protected static <T extends AbstractOkaeriConfig> T createConfig(Class<T> configClass) {
         return createConfig(configClass, configClass.getSimpleName().toLowerCase() + ".yml");
     }
 
-    protected static <T extends OkaeriYamlConfig> T createConfig(Class<T> configClass, String filename, BidirectionalTransformer<?, ?>... transformers) {
+    protected static <T extends AbstractOkaeriConfig> T createConfig(Class<T> configClass, String filename, BidirectionalTransformer<?, ?>... transformers) {
         return createConfig(configClass, filename, new YamlSnakeYamlConfigurer(), transformers);
     }
 
-    protected static <T extends OkaeriYamlConfig> T createConfig(Class<T> configClass, String filename, Configurer configurer, BidirectionalTransformer<?, ?>... transformers) {
+    protected static <T extends AbstractOkaeriConfig> T createConfig(Class<T> configClass, String filename, Configurer configurer, BidirectionalTransformer<?, ?>... transformers) {
         return ConfigManager.create(configClass, (it) -> {
             it.withConfigurer(configurer, new StandardSerdes());
             it.withBindFile(dataFolderPath.resolve(filename));
@@ -33,7 +33,6 @@ public abstract class OkaeriYamlConfig extends OkaeriConfig {
             it.saveDefaults();
 
             for (BidirectionalTransformer<?, ?> pack : transformers) {
-                System.out.println("Registering transformer: " + pack.getClass().getSimpleName());
                 it.withSerdesPack(registry -> registry.register(pack));
             }
 
