@@ -38,8 +38,8 @@ public class CommandManager extends Tickable {
 
     // For embedded commands in the framework which must be registered manually
     public CommandManager() {
-        new AddEventListenerEmbeddedCommand().register();
-        new RemoveEventListenerEmbeddedCommand().register();
+        //new AddEventListenerEmbeddedCommand().register();
+        //new RemoveEventListenerEmbeddedCommand().register();
     }
 
 

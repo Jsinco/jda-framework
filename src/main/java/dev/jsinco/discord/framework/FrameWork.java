@@ -1,5 +1,6 @@
 package dev.jsinco.discord.framework;
 
+import com.sun.tools.javac.Main;
 import dev.jsinco.discord.framework.commands.CommandManager;
 import dev.jsinco.discord.framework.commands.CommandModule;
 import dev.jsinco.discord.framework.console.ConsoleCommandManager;
@@ -24,6 +25,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -44,6 +46,18 @@ public final class FrameWork {
     @Getter private static Path dataFolderPath;
 
     private static final int MINIMUM_BOT_TOKEN_LENGTH = 50; // According to google it's 59 characters long. But I'll just use 50.
+
+
+    public static void start(Class<?> caller) {
+        String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+        File jarFile = new File(path);
+        String jarDir = jarFile.getParentFile().getAbsolutePath();
+
+        File dataFolder = new File(jarDir + File.separator + "data");
+        dataFolder.mkdirs();
+
+        start(caller, dataFolder.toPath());
+    }
 
     public static void start(Class<?> caller, Path dataFolderPath) {
         start(caller, dataFolderPath, "bot_token");

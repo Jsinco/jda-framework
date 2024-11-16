@@ -14,21 +14,21 @@ import java.util.concurrent.CompletableFuture;
 
 public abstract class AbstractOkaeriConfig extends OkaeriConfig {
 
-    protected static final Path dataFolderPath = FrameWork.getDataFolderPath();
+    public static final Path dataFolderPath = FrameWork.getDataFolderPath();
 
 
-    protected static <T extends AbstractOkaeriConfig> T createConfig(Class<T> configClass) {
+    public static <T extends AbstractOkaeriConfig> T createConfig(Class<T> configClass) {
         return createConfig(configClass, configClass.getSimpleName().toLowerCase() + ".yml");
     }
 
-    protected static <T extends AbstractOkaeriConfig> T createConfig(Class<T> configClass, String filename, BidirectionalTransformer<?, ?>... transformers) {
-        return createConfig(configClass, filename, new YamlSnakeYamlConfigurer(), transformers);
+    public static <T extends AbstractOkaeriConfig> T createConfig(Class<T> configClass, String filename, BidirectionalTransformer<?, ?>... transformers) {
+        return createConfig(configClass, dataFolderPath, filename, new YamlSnakeYamlConfigurer(), transformers);
     }
 
-    protected static <T extends AbstractOkaeriConfig> T createConfig(Class<T> configClass, String filename, Configurer configurer, BidirectionalTransformer<?, ?>... transformers) {
+    public static <T extends AbstractOkaeriConfig> T createConfig(Class<T> configClass, Path path, String filename, Configurer configurer, BidirectionalTransformer<?, ?>... transformers) {
         return ConfigManager.create(configClass, (it) -> {
             it.withConfigurer(configurer, new StandardSerdes());
-            it.withBindFile(dataFolderPath.resolve(filename));
+            it.withBindFile(path.resolve(filename));
             it.withRemoveOrphans(true);
             it.saveDefaults();
 
