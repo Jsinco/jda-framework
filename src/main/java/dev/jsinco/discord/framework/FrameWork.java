@@ -54,7 +54,9 @@ public final class FrameWork {
         String jarDir = jarFile.getParentFile().getAbsolutePath();
 
         File dataFolder = new File(jarDir + File.separator + "data");
-        dataFolder.mkdirs();
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
 
         start(caller, dataFolder.toPath());
     }
