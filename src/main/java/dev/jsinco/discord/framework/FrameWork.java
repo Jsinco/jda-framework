@@ -48,11 +48,11 @@ public final class FrameWork {
 
 
     public static void start(Class<?> caller) {
-        start(caller, getDefaultDataFolderPath("data"));
+        start(caller, getDefaultDataFolderPath(caller, "data"));
     }
 
     public static void start(Class<?> caller, String dataFolderName) {
-        start(caller, getDefaultDataFolderPath(dataFolderName));
+        start(caller, getDefaultDataFolderPath(caller, dataFolderName));
     }
 
     public static void start(Class<?> caller, Path dataFolderPath) {
@@ -220,7 +220,7 @@ public final class FrameWork {
     }
 
 
-    public static Path getDefaultDataFolderPath(String folderName) {
+    public static Path getDefaultDataFolderPath(Class<?> caller, String folderName) {
         String path = caller.getProtectionDomain().getCodeSource().getLocation().getPath();
         File jarFile = new File(path);
         String jarDir = jarFile.getParentFile().getAbsolutePath();
