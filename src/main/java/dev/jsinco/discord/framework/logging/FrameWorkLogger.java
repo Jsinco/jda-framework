@@ -1,6 +1,7 @@
 package dev.jsinco.discord.framework.logging;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
@@ -15,20 +16,19 @@ import org.slf4j.LoggerFactory;
  * @since 1.0
  * @author Jonah
  */
-public final class FrameWorkLogger {
+@Getter
+@Setter
+public class FrameWorkLogger {
 
-    @Getter
-    private static final Logger logger = LoggerFactory.getLogger(FrameWorkLogger.class);
+    @Getter private static final Logger logger = LoggerFactory.getLogger(FrameWorkLogger.class);
+    private static FrameWorkLogger instance;
 
-    // Create a PatternLayout with the desired format
-    @Getter
-    private static PatternLayout layout = PatternLayout.newBuilder()
-            .withPattern("[%d{HH:mm:ss} %c{1}/%thread]: %msg%n")
-            .build();
-
-    // Create a ConsoleAppender and associate it with the PatternLayout
-    @Getter
-    private static ConsoleAppender consoleAppender = ConsoleAppender.createDefaultAppenderForLayout(layout);
+    public static FrameWorkLogger getInstance() {
+        if (instance == null) {
+            instance = new FrameWorkLogger();
+        }
+        return instance;
+    }
 
     public static void info(String message) {
         logger.info(message);
@@ -46,9 +46,24 @@ public final class FrameWorkLogger {
         logger.error(message, throwable);
     }
 
-    public static void configureLogging() {
+
+    private ConsoleAppender consoleAppender;
+
+    private FrameWorkLogger() {
+        PatternLayout localLayout = PatternLayout.newBuilder()
+                .withPattern("[%d{HH:mm:ss} %c{1}/%thread]: %msg%n")
+                .build();
+
+        this.consoleAppender = ConsoleAppender.createDefaultAppenderForLayout(localLayout);
+    }
+
+    private FrameWorkLogger(ConsoleAppender consoleAppender) {
+        this.consoleAppender = consoleAppender;
+    }
 
 
+
+    public void configureLogging() {
         // Get the current Log4j2 configuration
         LoggerContext context = (LoggerContext) LogManager.getContext(false);
         Configuration config = context.getConfiguration();

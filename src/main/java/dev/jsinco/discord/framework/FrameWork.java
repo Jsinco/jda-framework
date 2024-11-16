@@ -1,6 +1,5 @@
 package dev.jsinco.discord.framework;
 
-import com.sun.tools.javac.Main;
 import dev.jsinco.discord.framework.commands.CommandManager;
 import dev.jsinco.discord.framework.commands.CommandModule;
 import dev.jsinco.discord.framework.console.ConsoleCommandManager;
@@ -49,24 +48,19 @@ public final class FrameWork {
 
 
     public static void start(Class<?> caller) {
-        String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        File jarFile = new File(path);
-        String jarDir = jarFile.getParentFile().getAbsolutePath();
+        start(caller, getDefaultDataFolderPath("data"));
+    }
 
-        File dataFolder = new File(jarDir + File.separator + "data");
-        if (!dataFolder.exists()) {
-            dataFolder.mkdirs();
-        }
-
-        start(caller, dataFolder.toPath());
+    public static void start(Class<?> caller, String dataFolderName) {
+        start(caller, getDefaultDataFolderPath(dataFolderName));
     }
 
     public static void start(Class<?> caller, Path dataFolderPath) {
-        start(caller, dataFolderPath, "bot_token");
+        start(caller, dataFolderPath, "bot_token", true);
     }
 
 
-    public static void start(Class<?> caller, Path dataFolderPath, String botTokenArgName) {
+    public static void start(Class<?> caller, Path dataFolderPath, String botTokenArgName, boolean configureLogging) {
         FrameWork.caller = caller;
         FrameWork.dataFolderPath = dataFolderPath;
         System.out.println("Starting " + caller.getCanonicalName());
@@ -76,7 +70,9 @@ public final class FrameWork {
             botToken = System.getenv(botTokenArgName);
         }
 
-        FrameWorkLogger.configureLogging();
+        if (configureLogging) {
+            FrameWorkLogger.getInstance().configureLogging();
+        }
 
         if (botToken == null || botToken.length() < MINIMUM_BOT_TOKEN_LENGTH) {
             FrameWorkLogger.error("You must provide a Discord Bot token to run this application!");
@@ -115,19 +111,13 @@ public final class FrameWork {
 
         injectStaticFields();
 
-        // Using annotations is so much better
+        // Using annotations for event listeners
         jda.setEventManager(new AnnotatedEventManager());
         reflectivelyRegisterClasses();
 
         CommandManager commandManager = new CommandManager();
         jda.addEventListener(commandManager); // Manually add this event listener
         ScheduleManager.getInstance().schedule(commandManager, 0L, 10000L); // 10 Sec
-
-        // Update commands on startup
-//        jda.updateCommands().queue();
-//        for (Guild guild : jda.getGuilds()) {
-//            guild.updateCommands().queue();
-//        }
 
         // Console commands
         ConsoleCommandManager.getInstance()
@@ -229,4 +219,17 @@ public final class FrameWork {
         }
     }
 
+
+    public static Path getDefaultDataFolderPath(String folderName) {
+        String path = caller.getProtectionDomain().getCodeSource().getLocation().getPath();
+        File jarFile = new File(path);
+        String jarDir = jarFile.getParentFile().getAbsolutePath();
+
+        File dataFolder = new File(jarDir + File.separator + folderName);
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
+
+        return dataFolder.toPath();
+    }
 }
