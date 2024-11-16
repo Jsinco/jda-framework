@@ -25,7 +25,7 @@ public class Serdes {
         for (Map.Entry<Class<?>, Object> entry : typeAdapters.entrySet()) {
             builder.registerTypeAdapter(entry.getKey(), entry.getValue());
         }
-        gson = builder.setPrettyPrinting().create();
+        this.gson = builder.setPrettyPrinting().create();
     }
 
     public <T> String serialize(T object) {
@@ -63,7 +63,7 @@ public class Serdes {
         return instance;
     }
 
-    private static Map<Class<?>, Object> getTypeAdapters() {
+    private Map<Class<?>, Object> getTypeAdapters() {
         Map<Class<?>, Object> typeAdapters = new HashMap<>();
         Set<Class<?>> classes = ReflectionUtil.getAllClassesFor();
 
