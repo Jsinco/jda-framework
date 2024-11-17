@@ -14,13 +14,13 @@ public final class Settings extends AbstractOkaeriConfig {
     private boolean sendErrors = false;
 
     @Comment("Remote Github repository for this project for enhanced error reporting. (Should include '/' at the end)")
-    private String repository = "https://github.com/Coding-Club-HCC/DiscordBot/";
+    private String repository = "https://github.com/Jsinco/jda=framework/";
 
     @Comment("Branch of the remote Github repository for this project for enhanced error reporting.")
     private String branch = "master";
 
     @Comment("The module path.")
-    private String module = "modules/src/main/java";
+    private String module = "src/main/java";
 
     @Comment("The default online status.")
     private OnlineStatus defaultStatus = OnlineStatus.DO_NOT_DISTURB;
