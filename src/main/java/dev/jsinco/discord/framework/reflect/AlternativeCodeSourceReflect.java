@@ -27,11 +27,11 @@ public final class AlternativeCodeSourceReflect {
                 if (classes.length > 0) {
                     Set<Class<?>> allClasses = new HashSet<>();
                     for (Class<?> aClass : classes) {
-                        allClasses.addAll(findListenerClassesInPackage(BASE_PACKAGE, packageUrl, aClass));
+                        allClasses.addAll(findClassesInPackage(BASE_PACKAGE, packageUrl, aClass));
                     }
                     return allClasses;
                 }
-                return findListenerClassesInPackage(BASE_PACKAGE, packageUrl, null);
+                return findClassesInPackage(BASE_PACKAGE, packageUrl, null);
             }
         } catch (IOException e) {
             FrameWorkLogger.error("An error occurred while searching for classes!", e);
@@ -40,7 +40,7 @@ public final class AlternativeCodeSourceReflect {
         return Set.of();
     }
 
-    private static Set<Class<?>> findListenerClassesInPackage(String packageName, URL packageUrl, @Nullable Class<?> classToSearchFor) throws IOException {
+    private static Set<Class<?>> findClassesInPackage(String packageName, URL packageUrl, @Nullable Class<?> classToSearchFor) throws IOException {
         // Convert the URL into a directory path
         File directory = new File(packageUrl.getFile());
 
@@ -56,7 +56,7 @@ public final class AlternativeCodeSourceReflect {
             for (File file : files) {
                 if (file.isDirectory()) {
                     // If it's a directory, recurse into it
-                    listenerClasses.addAll(findListenerClassesInPackage(packageName + "." + file.getName(), file.toURI().toURL(), classToSearchFor));
+                    listenerClasses.addAll(findClassesInPackage(packageName + "." + file.getName(), file.toURI().toURL(), classToSearchFor));
                 } else if (file.getName().endsWith(".class")) {
                     // If it's a .class file, check if it's a listener class
                     String className = packageName + "." + file.getName().substring(0, file.getName().length() - 6); // remove .class extension
