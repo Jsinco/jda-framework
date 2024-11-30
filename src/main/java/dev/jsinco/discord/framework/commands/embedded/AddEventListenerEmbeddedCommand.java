@@ -4,6 +4,7 @@ import dev.jsinco.discord.framework.commands.CommandModule;
 import dev.jsinco.discord.framework.commands.DiscordCommand;
 import dev.jsinco.discord.framework.events.EventManager;
 import dev.jsinco.discord.framework.events.ListenerModuleState;
+import dev.jsinco.discord.framework.util.DNI;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
@@ -12,6 +13,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
 import java.util.List;
 
+@DNI
 @DiscordCommand(name = "addevent", description = "Add a class as an event listener.", permission = Permission.ADMINISTRATOR)
 public class AddEventListenerEmbeddedCommand implements CommandModule {
 

@@ -140,7 +140,7 @@ public final class FrameWork {
 
             try {
                 Constructor<?> constructor = aClass.getConstructor();
-                if (Modifier.isPrivate(constructor.getModifiers())) {
+                if (Modifier.isPrivate(constructor.getModifiers()) || Modifier.isAbstract(aClass.getModifiers())) {
                     continue;
                 }
                 Object instance = constructor.newInstance();

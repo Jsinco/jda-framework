@@ -6,6 +6,7 @@ import dev.jsinco.discord.framework.logging.FrameWorkLogger;
 import dev.jsinco.discord.framework.FrameWork;
 import dev.jsinco.discord.framework.scheduling.Tickable;
 import dev.jsinco.discord.framework.settings.Settings;
+import dev.jsinco.discord.framework.util.DNI;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
@@ -31,6 +32,7 @@ import java.util.Map;
  * @see CommandModule
  * @see DiscordCommand
  */
+@DNI
 public class CommandManager extends Tickable {
 
     private static final Map<String, CommandModule> COMMAND_MODULE_MAP = new HashMap<>();

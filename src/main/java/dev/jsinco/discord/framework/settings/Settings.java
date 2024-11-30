@@ -14,7 +14,7 @@ public final class Settings extends AbstractOkaeriConfig {
     private boolean sendErrors = false;
 
     @Comment("Remote Github repository for this project for enhanced error reporting. (Should include '/' at the end)")
-    private String repository = "https://github.com/Jsinco/jda=framework/";
+    private String repository = "https://github.com/Jsinco/jda-framework/";
 
     @Comment("Branch of the remote Github repository for this project for enhanced error reporting.")
     private String branch = "master";
