@@ -124,10 +124,6 @@ public final class FrameWork {
                 .registerCommand(new StopCommand())
                 .registerCommand(new HelpCommand())
                 .registerCommand(new DumpJDAInfoCommand());
-                //.registerCommand(new RestartCommand());
-
-
-        injectStaticFields();
     }
 
     public static void reflectivelyRegisterClasses() {
