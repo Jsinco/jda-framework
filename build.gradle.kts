@@ -1,7 +1,6 @@
 plugins {
     id("java")
     id("maven-publish")
-    id("com.gradleup.shadow") version "8.3.5"
 }
 
 group = "dev.jsinco.discord"
@@ -42,21 +41,6 @@ tasks.withType<JavaCompile>().configureEach {
     options.encoding = "UTF-8"
 }
 
-tasks.jar {
-    archiveClassifier.set("original")
-}
-
-tasks.shadowJar {
-    dependencies {
-        // Include all
-    }
-    archiveClassifier.set("")
-}
-
-tasks.build {
-    dependsOn("shadowJar")
-}
-
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
@@ -84,12 +68,10 @@ publishing {
     publications {
         if (user != null && pass != null) {
             create<MavenPublication>("maven") {
-                groupId = "dev.jsinco.discord"
+                groupId = project.group.toString()
                 artifactId = "jda-framework"
                 version = project.version.toString()
-                artifact(tasks.shadowJar.get().archiveFile) {
-                    builtBy(tasks.shadowJar)
-                }
+                from(components["java"])
             }
         }
     }
