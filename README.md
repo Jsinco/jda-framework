@@ -1,6 +1,6 @@
 A Framework to make working with the [JDA](https://github.com/discord-jda/JDA) wrapper easier.
 
-Get a release from [JitPack](https://jitpack.io/#Jsinco/jda-framework).
+Get a release from [repo.jsinco.dev](https://repo.jsinco.dev/#/releases/dev/jsinco/discord/jda-framework).
 
 
 
@@ -12,7 +12,7 @@ Here's what I recommend for your dependencies:
 ```kts
 repositories {
     mavenCentral()
-    maven("https://jitpack.io")
+    maven("https://repo.jsinco.dev/releases")
 
     //////////////////////////
     // OPTIONAL STUFF BELOW //
@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.Jsinco:jda-framework:%VERSION%")
+    implementation("dev.jsinco.discord:jda-framework:1.8")
     
     // JDA
     implementation("net.dv8tion:JDA:5.0.0-beta.24")

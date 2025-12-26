@@ -30,7 +30,7 @@ public interface CommandModule extends AbstractModule {
     }
 
     default boolean persistRegistration() {
-        return false;
+        return true;
     }
 
     default DiscordCommand getCommandInfo() {
